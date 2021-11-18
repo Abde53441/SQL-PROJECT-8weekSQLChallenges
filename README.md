@@ -63,7 +63,7 @@ The final <code> members </code> table captures the <code> join_date </code> whe
 Danny's got his dream diner running, but boy does he have a lot of questions he wanted answers to. Luckily, I have all of the solutions executed using single line SQL queries.
 Let me take you through each of them!
 #### Question 1: What is the total amount each customer spent at the restaurant?
-#### Difficulty Level: 🔘 🔘
+
 ```sql
 select s.customer_id AS MEMBER_NAME, SUM(m.price) AS AMOUNT_SPENT
 FROM sales AS s INNER JOIN menu AS m 
@@ -76,9 +76,9 @@ ORDER BY customer_id;
 |A| 76|
 |B| 74|
 |C| 36|
+
 Customer A is the biggest spender of them all with a whopping 76$! That's a lot of yummy sushi! 
 #### Question 2: How many days has each customer visited the restaurant?
-#### Difficulty Level: 🔘
 ```sql
 SELECT customer_id AS MEMBER_NAME, COUNT(DISTINCT order_date) AS NO_OF_DAYS_VISITED
 FROM sales
@@ -89,9 +89,9 @@ GROUP BY customer_id;
 |A| 4|
 |B| 6|
 |C| 2|
+
 Customer B seems to be a frequent visitor, Danny's Diner needs to start thinking of a discount program!
 #### Question 3: What was the first item from the menu purchased by each customer?
-#### Difficulty Level: 🔘🔘
 ```sql
 WITH cte_order AS (
     SELECT s.customer_id, m.product_name,
@@ -110,9 +110,9 @@ SELECT * from cte_order WHERE first_purchase = 1;
 |A| sushi|1|
 |B| curry|1|
 |C| ramen|1|
+
 Well, you know what they say, you always remember your firsts! 
 #### Question 4: What is the most purchased item on the menu and how many times was it purchased by all customers?
-#### Difficulty Level: 🔘🔘
 ```sql
 SELECT TOP 1 m.product_name, COUNT(s.product_id) AS PURCHASE_COUNT
 FROM sales AS s INNER JOIN menu AS m
@@ -125,9 +125,9 @@ SELECT * from cte_order WHERE first_purchase = 1;
 |Product Name|Purchase Count|
 |---|---|
 |Ramen| 8|
+
 I wonder if there's a secret ingrediant that goes into the Ramen to make it such a top seller! 
 #### Question 5: Which item was the most popular for each customer?
-#### Difficulty Level: 🔘🔘🔘
 ```sql
 WITH popular_order_cte AS (
     SELECT s.customer_id, m.product_name, COUNT(s.product_id) AS order_count,
@@ -146,9 +146,9 @@ SELECT * from popular_order_cte where order_rank=1;
 |A| ramen|3|1|
 |B| sushi|2|1|
 |C| ramen|3|1|
+
 Looks like A & C are on the same team Ramen while Customer B prefers Sushi. I'm gonna side with B.
 #### Question 6: Which item was purchased first by the customer after they became a member?
-#### Difficulty Level: 🔘🔘🔘
 ```sql
 WITH member_cte AS (
     SELECT s.customer_id, mem.join_date, s.order_date, s.product_id,
@@ -169,7 +169,6 @@ WITH member_cte AS (
 |A| 2021-01-07|curry|
 |B| 2021-01-11|sushi|
 #### Question 7: Which item was purchased just before the customer became a member?
-#### Difficulty Level: 🔘🔘
 ```sql
 WITH member_cte AS (
     SELECT s.customer_id, mem.join_date, s.order_date, s.product_id,
@@ -190,9 +189,9 @@ WITH member_cte AS (
 |A| 2021-01-01|sushi|
 |A| 2021-01-01|curry|
 |B| 2021-01-04|sushi|
+
 Customer A & B both had sushi ust before they became memmbers, looks like it might've been the deciding dish!
 #### Question 8: What is the total items and amount spent for each member before they became a member?
-#### Difficulty Level: 🔘🔘
 ```sql
 SELECT s.customer_id, COUNT(s.product_id) AS items_bought, SUM(m.price) AS total_amount
 FROM sales AS s 
@@ -207,9 +206,9 @@ GROUP BY s.customer_id;
 |---|---|---|
 |A| 2|25|
 |B| 3|40|
+
 Customer B remains the biggest spender even after the membership program! That's some loyalty.
 #### Question 9: If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
-#### Difficulty Level: 🔘🔘🔘🔘
 ```sql
 WITH points_cte AS(
     SELECT *,
@@ -230,9 +229,9 @@ GROUP BY s.customer_id;
 |A| 860|
 |B| 940|
 |C| 360|
+
 Customer B takes the lead with 940 points, followed by A with 860, and C with 360. Hope they use these points up for some good discounts!
 #### Question 10: In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
-#### Difficulty Level: 🥵
 Now this one had me stumped for quite a while and the only way to tackle this is to divide the question up and answer each part individually. 
 Firstly: We need to find out the validity of the 2X points program for those who become members, this means that any item that a member buys within a week of their membership is worth 2x the points. 
 ```sql
